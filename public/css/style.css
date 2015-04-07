@@ -1,0 +1,24 @@
+.bkimg {
+	background-image: url(/img/bg_fantasy.jpg);
+	opacity:0.9;
+	-webkit-background-size: cover;
+ 	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+  	height:1250px;
+}
+
+.title {
+	margin-left: 350px;
+	color: #FEFEFE;
+	opacity: 0.8;
+	font-size: 250%;
+}
+
+.subtitle {
+	margin-left: 500px;
+	color: #FEFEFE;
+	opacity: 0.8;
+	font-size: 150%;
+}
+
