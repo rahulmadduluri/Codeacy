@@ -4,12 +4,24 @@ var express = require('express');
 	http = require('http'),
 	path = require('path'),
 	mongoskin = require('mongoskin'),
-	dbUrl = process.env.MONGOHQ_URL || 'mongodb://localhost:27017/blog',
-	db = mongoskin.db(dbUrl, {safe: true});
-	collections = {
-		users: db.collection('users')
-	};
+	dbUrl = process.env.MONGOHQ_URL || 'mongodb://localhost:27017/blog';
 
+//mongoose
+var mongoose = require('mongoose');
+mongoose.connect(dbUrl, {safe: true});
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+
+});
+
+//passport
+var passport = require('passport');
+
+//create collections
+var collections = {
+	users: db.collection('users')
+};
 
 
 //middleware
@@ -46,6 +58,25 @@ app.use(methodOverride());
 app.use(require('stylus').middleware(__dirname + 'public'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+//authentication
+app.use(cookieParser('3CCC4ACD-6ED1-4844-9217-82131BDCB239'));
+app.use(session({secret: '2C44774A-D649-4D44-9535-46E296EF984F'}));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login for session
+
+var initPassport = require('./passport/init');
+initPassport(passport);
+
+//passport adds .isAuthenticated to req
+var isAuthenticated = function(req, res, next) {
+	if (req.isAuthenticated())
+		return next();
+
+	//if user is not authenticated go back to login page
+	res.redirect('/');
+}
+
+
 //error handling if environment is development
 if ('development' == app.get('env')) {
 	app.use(errorHandler());
@@ -54,11 +85,23 @@ if ('development' == app.get('env')) {
 
 //pages & routes
 app.get('/', routes.index);
-/*
-app.get('/login', routes.user.login);
-app.post('/login', routes.user.authenticate);
+app.get('/admin', isAuthenticated, routes.user.admin);
 app.get('/logout', routes.user.logout);
-*/
+
+//route for facebook authentication and login
+app.get('/login/facebook', 
+	passport.authenticate('facebook', { 
+		scope : 'email'
+	})
+);
+
+//handle callback after facebook has authenticated user
+app.get('/login/facebook/callback',
+	passport.authenticate('facebook', {
+		successRedirect: '/admin',
+		failureRedirect: '/'
+	})
+);
 
 
 //REST API routes

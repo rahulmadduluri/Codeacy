@@ -1,1 +1,1 @@
-mongoimport --db blog --collection user --file ./db/users.json --jsonArray
+mongoimport --db blog --collection users --file ./db/users.json --jsonArray
