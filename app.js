@@ -85,7 +85,11 @@ if ('development' == app.get('env')) {
 
 //pages & routes
 app.get('/', routes.index);
+
+//for admin purposes -- currently unused
 app.get('/admin', isAuthenticated, routes.user.admin);
+
+//to logout
 app.get('/logout', routes.user.logout);
 
 //route for facebook authentication and login
@@ -98,7 +102,7 @@ app.get('/login/facebook',
 //handle callback after facebook has authenticated user
 app.get('/login/facebook/callback',
 	passport.authenticate('facebook', {
-		successRedirect: '/admin',
+		successRedirect: '/',
 		failureRedirect: '/'
 	})
 );
