@@ -1,24 +1,171 @@
-.bkimg {
-	background-image: url(/img/bg_fantasy.jpg);
-	opacity:0.9;
+body {
+
+}
+
+.background {
+	position: absolute;
+	height: 780px;
+	width: 100%;
+	background-image: url(/img/background.jpg);
 	-webkit-background-size: cover;
  	-moz-background-size: cover;
   	-o-background-size: cover;
   	background-size: cover;
-  	height:1250px;
+
+  	-webkit-filter: blur(5px);
+  	-moz-filter: blur(5px);
+  	-o-filter: blur(5px);
+  	-ms-filter: blur(5px);
+  	filter: blur(5px);
+}
+
+.corner {
+	padding-top: 40px;
+	padding-left: 40px;
+}
+
+.logo {
+	height: 40px;
+	width: 42px;
+	opacity: 0.99;
+	background-image: url(/img/logo.png);
+	float: left;
+}
+
+.name {
+	padding-top: 6px;
+	padding-left: 10px;
+	color: white;
+	opacity: 0.99;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+	font-size: 30px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 26px;
+	float: left;
+}
+
+.log {
+	padding-top: 10px;
+	padding-right: 20px;
+	color: white;
+	opacity: 0.99;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+	font-size: 20px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 330;
+	line-height: 26px;
+	float: right;
+}
+
+.about {
+	padding-top: 10px;
+	padding-right: 20px;
+	color: white;
+	opacity: 0.99;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+	font-size: 20px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 330;
+	line-height: 26px;
+	float: right;
+}
+
+.help {
+	padding-top: 10px;
+	padding-right: 60px;
+	color: white;
+	opacity: 0.99;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+	font-size: 20px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 330;
+	line-height: 26px;
+	float: right;
+}
+
+.left {
+	margin-top: 50px;
+	margin-left: 50px;
+	height: 640px;
+	width: 500px;
+	opacity: 0.99;
+	background-color: rgba(255, 255, 255, 0.6);
+	float: left;
+}
+
+.right {
+	margin-top: 170px;
+	margin-left: 250px;
+	opacity: 0.99;
+	background-color: rgba(255, 255, 255, 0.6);
+	height: 400px;
+	width: 400px;
+	float: left;
 }
 
 .title {
-	margin-left: 350px;
-	color: #FEFEFE;
-	opacity: 0.8;
-	font-size: 250%;
+	color: white;
+	opacity: 0.99;
+	text-align: center;
+	padding-top: 110px;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+	font-size: 120px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 300;
+	line-height: 26px;
+	letter-spacing: 5px;
 }
 
 .subtitle {
-	margin-left: 500px;
-	color: #FEFEFE;
-	opacity: 0.8;
-	font-size: 150%;
+	color: white;
+	opacity: 0.99;
+	text-align: center;
+	padding-top: 60px;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+	font-size: 50px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 200;
+	line-height: 26px;
+	letter-spacing: 2px;
+}
+
+.sign {
+	color: white;
+	opacity: 0.99;
+	text-align: center;
+	padding-top: 100px;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+	font-size: 35px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 200;
+	line-height: 26px;
+	letter-spacing: 1px;
+}
+
+.facebook {
+	padding-top: 100px;
+	width: 300px;
+	margin: 0 auto;
+}
+
+.footer {
+	padding-top: 120px;
+	text-align: center;
+	color: white;
+	opacity: 0.99;
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+	font-size: 17px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 300;
+	line-height: 26px;
 }
 
