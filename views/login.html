@@ -1,0 +1,70 @@
+
+
+<div class="background">
+	<div class="corner">
+		<div class="logo">
+		</div>
+		<p class="name">Codeacy</p>
+		<p class="help">Help</p>
+		<p class="about">About Us</p>
+		<p class="log">Log In</p>
+	</div>
+	<h1>
+		<p class="title">Codeacy</p>
+	</h1>
+	<h2>
+		<p class="subtitle">Learning, made fun.</p>
+	</h2>
+	<h1>
+		<p class="sign">Sign In</p>
+	</h1>
+	<div class="facebook">
+		<a href="/login/facebook" class="btn btn-block btn-social btn-facebook">Login with Facebook</a>
+		<i class="fa fa-facebook"></i>
+	</div>
+	<div class="arrow">
+	</div>
+	<div class="footer">
+	</div>
+</div>
+<div class="banner1">
+	<div class="learn main3">
+		<div id="learn-info">
+			<p class="text" id="learn-title">Learn.</p>
+			<p class="text" id="learn-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus pretium consequat dolor, a efficitur nisi accumsan eu. Praesent pulvinar diam ipsum, scelerisque consequat mauris maximus.</p>
+		</div>
+		<div id="learn-image">
+			<img src="/img/bulb.png">
+		</div>
+	</div>
+	<div class="code main3">
+		<div id="code-info">
+			<p class="text" id="code-title">Code.</p>
+			<p class="text" id="code-text">Maecenas sed auctor dui. Maecenas eu justo nec eros semper posuere at eu elit. Pellentesque efficitur placerat diam, laoreet aliquet turpis eleifend sed. Curabitur vel.</p>
+		</div>
+		<div id="code-image">
+			<img src="/img/brackets.png">
+		</div>
+	</div>
+	<div class="play main3">
+		<div id="play-info">
+			<p class="text" id="play-title">Play.</p>
+			<p class="text" id="play-text">Integer placerat augue felis, at ultrices libero sollicitudin molestie. Ut facilisis commodo metus, ac convallis urna. Donec finibus diam sed mauris pretium auctor. Cras sed.</p>
+		</div>
+		<div id="play-image">
+		</div>
+	</div>
+</div>
+
+
+<script>
+$(document).ready(function(){
+    $(".main3").mouseover(function() {
+         $("img", this).stop().animate({opacity:1.0},500);
+         $(".text", this).stop().animate({opacity:1.0},500);
+    }).mouseout(function() {
+         $("img", this).stop().animate({opacity:0.1}, 500);
+         $(".text", this).stop().animate({opacity:0.7},500);
+    });       
+});
+</script>
