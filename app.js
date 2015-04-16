@@ -6,6 +6,7 @@ var express = require('express');
 	mongoskin = require('mongoskin'),
 	dbUrl = process.env.MONGOHQ_URL || 'mongodb://localhost:27017/blog';
 
+
 //mongoose
 var mongoose = require('mongoose');
 mongoose.connect(dbUrl, {safe: true});
@@ -109,7 +110,7 @@ app.get('/login/facebook/callback',
 
 
 //REST API routes
-
+app.all('/api', isAuthenticated);
 
 
 //catch-all error 404 response
@@ -137,3 +138,18 @@ else {
 	exports.shutdown = shutdown;
 	exports.port = app.get('port');
 }
+
+
+//socket.io
+
+var io = require('socket.io')(server);
+var ideone = require('./public/js/ideone_compiler.js');
+
+io.on('connection', function(socket) {
+	socket.emit('start', { hello: 'world'});
+	socket.on('source-sent', function(data) {
+		var lang = 10;
+		var source = data.source;
+		ideone.run(source, lang, '');
+	});
+});
