@@ -149,7 +149,16 @@ io.on('connection', function(socket) {
 	socket.emit('start', { hello: 'world'});
 	socket.on('source-sent', function(data) {
 		var lang = 10;
-		var source = data.source;
+
+		var preBoiler = 'import java.util.*;import java.lang.*;import java.io.*;class Ideone {public static void main (String[] args) throws java.lang.Exception {';
+		var afterBoiler = '}}';
+
+		var inputCode = '';
+		for (var i = 0; i < data.source.length; ++i) {
+			inputCode += data.source[i];
+		}
+
+		var source = preBoiler + inputCode + afterBoiler;
 		ideone.run(source, lang, '');
 	});
 });

@@ -1,35 +1,11 @@
 <div id="editor">// *** CODEACY ***
 
-function foo(items) {
-    var x = "All this is syntax highlighted";
-    return x;
-}</div>
+</div>
 
 <img id="manufacture" src="/img/manufacture.png">
 
-<button class="btn" onclick="clickFunction()">Compile</button>
+<button class="btn">Compile</button>
 
 <script src="/js/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
-<script>
-	var editor = ace.edit("editor");
-	editor.setTheme("ace/theme/tomorrow_night_eighties");
-	editor.getSession().setMode("ace/mode/javascript");
-	editor.getSession().setUseWrapMode(true);
-
-	// event for when typing stops
-	var myTimer = null;
-	editor.getSession().on('change', function(e) {
-		clearTimeout(myTimer);
-		myTimer = null;
-		if(!myTimer) {
-	    	myTimer = setTimeout(function(){
-	    		// stuff to happen after typing stops
-	    	}, 2000);
-		}
-	});
-
-	function clickFunction() {
-		alert(editor.getSession().getLines(0,6));
-	}
-
-</script>
+<script src="/socket.io/socket.io.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/socket_compiler_client.js" type="text/javascript" charset="utf-8"></script>
