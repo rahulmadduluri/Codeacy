@@ -2,10 +2,24 @@
 
 </div>
 
-<img id="manufacture" src="/img/manufacture.png">
+<div id="game"></div>
 
-<button class="btn">Compile</button>
+<img class="compileBtn" src="/img/playbtn.png"></button>
 
+<link rel="stylesheet" href="css/game.css" type="text/css"/>
+<script src="/js/phaser.min.js" type="text/javascript"></script>
+<script src="/js/game.js" type="text/javascript"></script>
 <script src="/js/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="/socket.io/socket.io.js" type="text/javascript" charset="utf-8"></script>
 <script src="/js/socket_compiler_client.js" type="text/javascript" charset="utf-8"></script>
+
+
+<script>
+	$(".compileBtn").hover(
+		function() {
+			$(this).attr("src", "/img/playbtnhover.png");
+		}, function() {
+			$(this).attr("src", "/img/playbtn.png");
+		}
+	);
+</script>

@@ -23,7 +23,7 @@ var socket = io.connect('http://localhost');
 
 socket.on('start', function(data) {
 
-	$(".btn").click(function() {
+	$(".compileBtn").click(function() {
 
 		code = editor.getSession().getDocument().getAllLines();
 		console.log(code);

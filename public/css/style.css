@@ -24,25 +24,16 @@ body {
 	width: 500px;
 }
 
-#manufacture {
-	width:950px;
-	float:right;
-}
 
-.btn {
+.compileBtn {
 	position: absolute;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0px;
-  font-family: Courier New;
-  color: #ffffff;
-  font-size: 20px;
-  background: #3498db;
-  padding: 10px 20px 10px 20px;
-  text-decoration: none;
-  margin-top: 690px;
-  margin-left: 350px;
-  float:right;
+	color: #ffffff;
+	font-size: 20px;
+	padding: 10px 20px 10px 20px;
+	height: 100px;
+	margin-top: 655px;
+	margin-left: 350px;
+	float:right;
 }
 
 .btn:hover {
