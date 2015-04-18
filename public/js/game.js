@@ -150,3 +150,13 @@ function render() {
 function restart () {
     
 }
+
+function runInitialAnimation() {
+    jump();
+}
+
+//calls editor.js's compile code to compile code
+$(".compileBtn").click(function() {
+    compileCode();
+});
+
