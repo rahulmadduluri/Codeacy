@@ -54,7 +54,7 @@ function create() {
 
 
 
-    this.cursor = game.input.keyboard.createCursorKeys();
+    //this.cursor = game.input.keyboard.createCursorKeys();
 
     /*
     bullets = game.add.group();
@@ -164,7 +164,7 @@ function create() {
 
 
 
-    jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    //jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
 }
 
@@ -206,14 +206,17 @@ function update() {
         }
     }
     */
+    /*
     if (jumpButton.isDown) {
         alert('clicked');
         ringmove();
     }
-
+    */
+    /*
     if (game.input.activePointer.isDown) {
         fireBullet();
     }
+    */
     /*
     if (this.cursor.right.isDown)
         background.tilePosition.x -= 2;
@@ -237,6 +240,10 @@ function launchBlue() {
     //  Send another enemy soon
     blueLaunchTimer = game.time.events.add(game.rnd.integerInRange(blueSpacing, blueSpacing+10), launchBlue);
 
+}
+
+function runInitialAnimation() {
+    ringmove();
 }
 
 function ringmove() {
@@ -280,6 +287,7 @@ function ringstop() {
     greenring.body.velocity.y = 0;
 }
 
+/*
 function fireBullet() {
     var BULLET_SPEED = 6000;
     var BULLET_SPACING = 250;
@@ -292,7 +300,7 @@ function fireBullet() {
         bullet.body.velocity.y = -90;
 
         //  Update function for each enemy ship to update rotation etc
-        /*enemy.update = function(){
+          enemy.update = function(){
           enemy.angle = 180 - game.math.radToDeg(Math.atan2(enemy.body.velocity.x, enemy.body.velocity.y));
 
           enemy.trail.x = enemy.x;
@@ -302,9 +310,10 @@ function fireBullet() {
           if (enemy.y > game.height + 200) {
             enemy.kill();
           }
-        }*/
+        }
     }
 }
+*/
 
 function render() {
     /*
