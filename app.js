@@ -3,6 +3,7 @@ var express = require('express');
 	routes = require('./routes'),
 	http = require('http'),
 	path = require('path'),
+	models = require('./models'),
 	dbUrl = process.env.MONGOHQ_URL || 'mongodb://localhost:27017/blog';
 
 
@@ -18,11 +19,6 @@ db.once('open', function (callback) {
 //passport
 var passport = require('passport');
 
-//create collections
-var collections = {
-	users: db.collection('users')
-};
-
 
 //middleware
 var session = require('express-session'),
@@ -36,10 +32,10 @@ var app = express();
 app.locals.appTitle = 'Codeacy';
 
 
-//middleware that exposes Mongoskin/MongoDB collections in each Express.js route via a req object
+//middleware that exposes Mongoose models in each Express.js route via a req object
 app.use(function(req, res, next) {
-	if (!collections.users) return next(new Error('No collections.'));
-	req.collections = collections;
+	if (!models.User) return next(new Error('No models.'));
+	req.models = models;
 	return next();
 });
 
