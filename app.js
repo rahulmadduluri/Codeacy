@@ -3,7 +3,6 @@ var express = require('express');
 	routes = require('./routes'),
 	http = require('http'),
 	path = require('path'),
-	mongoskin = require('mongoskin'),
 	dbUrl = process.env.MONGOHQ_URL || 'mongodb://localhost:27017/blog';
 
 
