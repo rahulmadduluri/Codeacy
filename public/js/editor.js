@@ -2,6 +2,34 @@ var editor = ace.edit("editor");
 editor.setTheme("ace/theme/tomorrow_night_eighties");
 editor.getSession().setMode("ace/mode/java");
 editor.getSession().setUseWrapMode(true);
+editor.setReadOnly(true);
+
+
+/*
+$("div .ace_gutter .ace_gutter-active-line").css("background", "transparent");
+$("div .ace_layer .ace_cursor").css("color", "transparent");
+*/
+
+editor.getSession().getSelection().on('changeCursor', function(e) {
+	if(editor.getCursorPosition().row>=2) {
+		editor.setReadOnly(false);
+		/*
+		$("div .ace_gutter .ace_gutter-active-line").css("background", "");
+		$("div .ace_layer .ace_cursor").css("color", "");
+		*/
+	}
+	else {
+		editor.setReadOnly(true);
+		/*
+		$("div .ace_gutter .ace_gutter-active-line").css("background", "transparent");
+		$("div .ace_layer .ace_cursor").css("color", "transparent");
+		*/
+	}
+	if(editor.getCursorPosition().row<2 && editor.getReadOnly()) {
+		editor.moveCursorTo(2,0);
+	}
+});
+
 
 var code = '';
 

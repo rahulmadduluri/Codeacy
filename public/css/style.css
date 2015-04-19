@@ -1,7 +1,19 @@
 body {
 
 }
+/*
+div .ace_layer .ace_cursor {
+	color: transparent;
+}
 
+div .ace_content .ace_layer .ace_active-line {
+	background: transparent;
+}
+
+div .ace_gutter .ace_gutter-active-line {
+	background: transparent;
+}
+*/
 .background {
 
 	height: 780px;
