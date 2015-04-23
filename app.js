@@ -148,7 +148,6 @@ process.on('uncaughtException', function(err) {
 //socket.io
 
 var io = require('socket.io').listen(server, {
-	}
 });
 var ideone = require('./public/js/ideone_compiler.js');
 
