@@ -150,7 +150,11 @@ process.on('uncaughtException', function(err) {
 var io = require('socket.io').listen(server, {
 	transports: [
 		'websocket',
-		'xhr-polling'
+		'flashsocket',
+		'htmlfile',
+		'xhr-polling',
+		'jsonp-polling',
+		'polling'
 	]
 });
 var ideone = require('./public/js/ideone_compiler.js');
