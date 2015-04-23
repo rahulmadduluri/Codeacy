@@ -119,6 +119,9 @@ var boot = function() {
 	server.listen(app.get('port'), function() {
 		console.info('Express server listening on port ' + app.get('port'));
 	});
+	server.on('error', function(err) {
+		console.error(err);
+	});
 }
 var shutdown = function() {
 	server.close();
@@ -134,11 +137,37 @@ else {
 	exports.port = app.get('port');
 }
 
+//uncaught error handling
+process.on('uncaughtException', function(err) {
+	console.error('uncaughtException: ', err.message);
+	console.error(err.stack);
+	process.exit(1);
+});
+
 
 //socket.io
 
 var io = require('socket.io')(server);
 var ideone = require('./public/js/ideone_compiler.js');
+
+//set production settings
+io.configure('production', function() {
+	io.enable('browser client etag');
+	io.set('log level', 1);
+	io.set('transports', [
+		'websocket',
+		'flashsocket',
+		'htmlfile',
+		'xhr-polling',
+		'jsonp-polling'
+	]);
+});
+
+/*development
+io.configure('development', function() {
+	io.set('transports', ['websocket']);
+});
+*/
 
 io.on('connection', function(socket) {
 	socket.emit('start', { hello: 'world'});
