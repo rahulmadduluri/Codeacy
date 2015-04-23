@@ -17,7 +17,7 @@ var ideone = new JsonRpcWrapper();
 
 // test
 ideone.call('testFunction', [user, pass], function(error, result) {
-	console.log('testFunction: ' + result['error']);
+	console.log('IDEONE compiler testFunction: ' + result['error']);
 });
 
 

@@ -4,7 +4,7 @@ var express = require('express');
 	http = require('http'),
 	path = require('path'),
 	models = require('./models'),
-	dbUrl = process.env.MONGOHQ_URL || 'mongodb://localhost:27017/blah';
+	dbUrl = process.env.MONGOHQ_URL || 'mongodb://localhost:27017/blog';
 
 
 //mongoose

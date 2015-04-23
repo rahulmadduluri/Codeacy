@@ -47,7 +47,7 @@ editor.getSession().on('change', function(e) {
 
 
 
-var socket = io.connect('http://www.codeacy.com');
+var socket = io.connect('http://localhost');
 
 //socket has connected
 var hasConnected = false;
