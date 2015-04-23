@@ -75,6 +75,12 @@ var isAuthenticated = function(req, res, next) {
 
 //error handling if environment is development
 if ('development' == app.get('env')) {
+	app.use(errorHandler({
+		dumpExceptions: true,
+		showStack: true
+	}));
+}
+else if ('production' == app.get('env')) {
 	app.use(errorHandler());
 }
 
@@ -148,14 +154,7 @@ process.on('uncaughtException', function(err) {
 //socket.io
 
 var io = require('socket.io').listen(server, {
-	transports: [
-		'websocket',
-		'flashsocket',
-		'htmlfile',
-		'xhr-polling',
-		'jsonp-polling',
-		'polling'
-	]
+	//config options
 });
 var ideone = require('./public/js/ideone_compiler.js');
 
