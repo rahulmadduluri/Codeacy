@@ -6,6 +6,8 @@ var express = require('express');
 	models = require('./models'),
 	dbUrl = process.env.MONGOHQ_URL || 'mongodb://localhost:27017/blog';
 
+var favicon = require('serve-favicon');
+
 
 //mongoose
 var mongoose = require('mongoose');
@@ -29,6 +31,7 @@ var session = require('express-session'),
 	methodOverride = require('method-override');
 
 var app = express();
+app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.locals.appTitle = 'Codeacy';
 
 
