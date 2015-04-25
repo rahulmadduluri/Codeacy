@@ -16,7 +16,7 @@ div .ace_gutter .ace_gutter-active-line {
 */
 .background {
 
-	height: 780px;
+	/*height: 780px;*/
 	width: 100%;
 	background-image: url(/img/background.jpg);
 	
@@ -24,6 +24,7 @@ div .ace_gutter .ace_gutter-active-line {
  	-moz-background-size: cover;
   	-o-background-size: cover;
   	background-size: cover;
+
   	
 }
 
@@ -34,6 +35,13 @@ div .ace_gutter .ace_gutter-active-line {
 	bottom: 0;
 	left: 0;
 	width: 500px;
+}
+
+
+.arrow-icon {
+	padding-top: 60px;
+	width: 100px;
+	content: url(/img/down.png);
 }
 
 
@@ -60,7 +68,7 @@ form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 
 #messages li { padding: 5px 10px; }
 #messages li:nth-child(odd) { background: #eee; }
 
-.banner1 {
+.content {
 	height: 1500px;
 }
 
@@ -200,8 +208,11 @@ form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 
 	opacity: 0.7;
 }
 
-#play-image {
-	
+#play-image img {
+	padding-top: 20px;
+	padding-left: 30px;
+	width:300px;
+	opacity: 0.1;
 }
 
 .corner {
