@@ -35,6 +35,36 @@ div .ace_gutter .ace_gutter-active-line {
 	bottom: 0;
 	left: 0;
 	width: 500px;
+	margin-top:55px;
+}
+
+.menu-title {
+ height: 50px;
+ font-size: 24px;
+ font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+ opacity: 0.8;
+ width: 200px;
+ letter-spacing: 1px;
+}
+
+.menu-subtitle {
+ font-size: 22px;
+ width: 200px;
+ font-family: 'Gill Sans', 'Gill Sans MT', Calibri, sans-serif;
+ opacity: 0.8;
+
+}
+
+.menu-img {
+    margin-bottom: 7px;
+}
+
+.menu-bar {
+    background: rgba(255,255,255,0.75);
+}
+
+.menu-bar-option {
+    background: rgba(224,224,224,0.9);
 }
 
 
