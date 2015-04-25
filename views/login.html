@@ -22,12 +22,15 @@
 		<a href="/login/facebook" class="btn btn-block btn-social btn-facebook">Login with Facebook</a>
 		<i class="fa fa-facebook"></i>
 	</div>
+	<center>
 	<div class="arrow">
+		<a href="#content" class="arctic_scroll arrow-icon"></a>
 	</div>
+	</center>
 	<div class="footer">
 	</div>
 </div>
-<div class="banner1">
+<div id="content" class="content">
 	<div class="learn main3">
 		<div id="learn-info">
 			<p class="text" id="learn-title">Learn.</p>
@@ -52,6 +55,7 @@
 			<p class="text" id="play-text">Integer placerat augue felis, at ultrices libero sollicitudin molestie. Ut facilisis commodo metus, ac convallis urna. Donec finibus diam sed mauris pretium auctor. Cras sed.</p>
 		</div>
 		<div id="play-image">
+			<img src="/img/alien_green_sketch.png">
 		</div>
 	</div>
 </div>
@@ -59,6 +63,19 @@
 
 <script>
 $(document).ready(function(){
+
+	$(".arctic_scroll").arctic_scroll();
+
+	
+	/*
+	$(window).load(function(){ // On load
+		$('.background').css({'height':(($(window).height()))+'px'});
+	});
+	$(window).resize(function(){ // On resize
+		$('.background').css({'height':(($(window).height()))+'px'});
+	});
+	*/
+
     $(".main3").mouseover(function() {
          $("img", this).stop().animate({opacity:1.0},500);
          $(".text", this).stop().animate({opacity:1.0},500);
@@ -67,4 +84,36 @@ $(document).ready(function(){
          $(".text", this).stop().animate({opacity:0.7},500);
     });       
 });
+
+
+    $.fn.arctic_scroll = function (options) {
+
+        var defaults = {
+            elem: $(this),
+            speed: 800
+        },
+
+        allOptions = $.extend(defaults, options);
+
+        allOptions.elem.click(function (event) {
+            event.preventDefault();
+            var $this = $(this),
+                $htmlBody = $('html, body'),
+                offset = ($this.attr('data-offset')) ? $this.attr('data-offset') : false,
+                position = ($this.attr('data-position')) ? $this.attr('data-position') : false,
+                toMove;
+
+            if (offset) {
+                toMove = parseInt(offset);
+                $htmlBody.stop(true, false).animate({scrollTop: ($(this.hash).offset().top + toMove) }, allOptions.speed);
+            } else if (position) {
+                toMove = parseInt(position);
+                $htmlBody.stop(true, false).animate({scrollTop: toMove }, allOptions.speed);
+            } else {
+                $htmlBody.stop(true, false).animate({scrollTop: ($(this.hash).offset().top) }, allOptions.speed);
+            }
+        });
+
+    };
+
 </script>
