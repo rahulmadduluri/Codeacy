@@ -1,33 +1,36 @@
 
 
-<div class="background">
-	<div class="corner">
-		<div class="logo">
+<div class="outer">
+	<img class="homeimg" src="/img/background.jpg">
+	<div class="inner">
+		<div class="corner">
+			<div class="logo">
+			</div>
+			<p class="name">Codeacy</p>
+			<p class="help">Help</p>
+			<p class="about">About Us</p>
+			<p class="log">Log In</p>
 		</div>
-		<p class="name">Codeacy</p>
-		<p class="help">Help</p>
-		<p class="about">About Us</p>
-		<p class="log">Log In</p>
-	</div>
-	<h1>
-		<p class="title">Codeacy</p>
-	</h1>
-	<h2>
-		<p class="subtitle">Learning, made fun.</p>
-	</h2>
-	<h1>
-		<p class="sign">Sign In</p>
-	</h1>
-	<div class="facebook">
-		<a href="/login/facebook" class="btn btn-block btn-social btn-facebook">Login with Facebook</a>
-		<i class="fa fa-facebook"></i>
-	</div>
-	<center>
-	<div class="arrow">
-		<a href="#content" class="arctic_scroll arrow-icon"></a>
-	</div>
-	</center>
-	<div class="footer">
+		<h1>
+			<p class="title">Codeacy</p>
+		</h1>
+		<h2>
+			<p class="subtitle">Learning, made fun.</p>
+		</h2>
+		<h1>
+			<p class="sign">Sign In</p>
+		</h1>
+		<div class="facebook">
+			<a href="/login/facebook" class="btn btn-block btn-social btn-facebook">Login with Facebook</a>
+			<i class="fa fa-facebook"></i>
+		</div>
+		<center>
+		<div class="arrow">
+			<a href="#content" class="arctic_scroll arrow-icon"></a>
+		</div>
+		</center>
+		<div class="footer">
+		</div>
 	</div>
 </div>
 <div id="content" class="content">
@@ -40,6 +43,7 @@
 			<img src="/img/bulb.png">
 		</div>
 	</div>
+
 	<div class="code main3">
 		<div id="code-info">
 			<p class="text" id="code-title">Code.</p>
@@ -58,6 +62,7 @@
 			<img src="/img/alien_green_sketch.png">
 		</div>
 	</div>
+
 </div>
 
 
@@ -84,6 +89,30 @@ $(document).ready(function(){
          $(".text", this).stop().animate({opacity:0.7},500);
     });       
 });
+
+	
+	$(window).load( function() {
+		var divHeight = $('.outer').height();
+		var divWidth = $('.homeimg').width();
+		
+		$('.title').css({'padding-top': (divHeight)/8 + 'px'});
+		$('.subtitle').css({'padding-top': (divHeight)/14 + 'px'});
+		$('.sign').css({'padding-top': (divHeight-530)/3 + 'px'});
+		$('.facebook').css({'padding-top': (divHeight-400)/4 + 'px'})
+		$('.arrow-icon').css({'padding-top': (divHeight-300)/8 + 'px'});
+	})
+	
+
+	$(window).resize( function() {
+		var divHeight = $('.outer').height();
+		var divWidth = $('.homeimg').height();
+		
+		$('.title').css({'padding-top': (divHeight)/8 + 'px'});
+		$('.subtitle').css({'padding-top': (divHeight)/14 + 'px'});
+		$('.sign').css({'padding-top': (divHeight-530)/3 + 'px'});
+		$('.facebook').css({'padding-top': (divHeight-400)/4 + 'px'})
+		$('.arrow-icon').css({'padding-top': (divHeight-300)/8 + 'px'});
+	})
 
 
     $.fn.arctic_scroll = function (options) {

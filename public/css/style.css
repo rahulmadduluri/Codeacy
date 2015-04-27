@@ -1,5 +1,5 @@
 body {
-
+	position: relative;
 }
 /*
 div .ace_layer .ace_cursor {
@@ -26,6 +26,20 @@ div .ace_gutter .ace_gutter-active-line {
   	background-size: cover;
 
   	
+}
+
+.homeimg {
+	width: 100%;
+}
+
+.outer {
+	position: relative;
+}
+
+.inner {
+	width: 100%;
+	top: 0px;
+	position: absolute;
 }
 
 #editor {
@@ -107,24 +121,29 @@ form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 
 	width:900px;
 	height:400px;
 	/*background-color: rgba(87, 152, 117, 1);*/
-	margin-left: 250px;
 	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .code {
 	width:900px;
 	height:400px;
 	/*background-color: rgba(215, 195, 123, 1);*/
-	margin-left: 250px;
+
 	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .play {
 	width:900px;
 	height:400px;
 	/*background-color: rgba(176, 101, 139, 1);*/
-	margin-left: 250px;
+
 	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #learn-info {
