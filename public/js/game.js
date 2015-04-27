@@ -1,8 +1,11 @@
 //# sourceMappingURL=phaser.map
-var game = new Phaser.Game(900,636, Phaser.AUTO, 'phaser-demo', {preload: preload, create: create, update: update, render: render});
+var game = new Phaser.Game(1200, 848, Phaser.AUTO, 'phaser-demo', {preload: preload, create: create, update: update, render: render});
 
 var player;
 var background;
+var start_flag = 0;
+var counter = 0;
+var ROTATOR = 0;
 var blues;
 var haloLaunchTimer;
 var blueSpacing = 1500;
@@ -15,20 +18,23 @@ var GRAVITY = 0;
 
 
 function preload() {
-    game.load.image('background', '/img/function_background.png');
-    game.load.image('whiteback', '/img/white_back.png');
-    game.load.image('platform', '/img/platform.png');
+    game.load.image('background', '/img/template.png');
+    game.load.image('whiteback', '/img/screenbg.png');
+    game.load.image('platform', '/img/platformfloat.png');
+    game.load.image('platform1', '/img/platform1char.png');
+    game.load.image('platform2', '/img/platform2char.png');
+    game.load.image('platform3', '/img/platform3char.png');
     game.load.image('green', '/img/green.png');
-    game.load.image('fscreen', '/img/screen.png');
-    game.load.image('leftarm', '/img/left_arm.png');
-    game.load.image('rightarm', '/img/right_arm.png');
-    game.load.image('redring', '/img/red_ring.png');
-    game.load.image('bluering', '/img/blue_ring.png');
-    game.load.image('greenring', '/img/green_ring.png');
-    game.load.image('orangering', '/img/orange_ring.png');
-    game.load.image('purplering', '/img/purple_ring.png');
+    game.load.image('fscreen', '/img/screen_tech.png');
+    game.load.image('redring', '/img/redring.png');
+    game.load.image('bluering', '/img/bluering.png');
+    game.load.image('greenring', '/img/greenring.png');
+    game.load.image('orangering', '/img/orangering.png');
+    game.load.image('purplering', '/img/purplering.png');
     game.load.image('greenhalo', '/img/green_halo.png');
     game.load.image('greenaura', '/img/green_aura.png');
+    game.load.image('techart', '/img/techcorner.png');
+    game.load.image('whitebottom', '/img/whitebottom.png');
     //game.load.spritesheet('smoke', '/assets/smokesprite.png', 300, 213);
 }
 
@@ -40,15 +46,30 @@ function create() {
 
     whiteback = game.add.sprite(0,0,'whiteback');
 
-    leftarm = game.add.sprite(-100, 68, 'leftarm');
-    leftarm.anchor.setTo(0.5, 0);
-    leftarm.scale.setTo(0.5, 0.5);
+    platform = game.add.sprite(600, 1550, 'platform');
+    platform.anchor.setTo(0.5, 0);
+    game.physics.enable(platform, Phaser.Physics.ARCADE);
+    game.physics.arcade.enableBody(platform);
+    platform.body.collideWorldBounds = false;
 
-    rightarm = game.add.sprite(1000, 68, 'rightarm');
-    rightarm.anchor.setTo(0.5, 0);
-    rightarm.scale.setTo(0.46, 0.46);
+    raisePlatform = game.add.tween(platform).to({ x: 600, y: 500 }, 1500, Phaser.Easing.Exponential.Out);
 
-    background = game.add.tileSprite(0, 0, 900, 636, 'background');
+    player = game.add.sprite(600, 1210, 'green');
+    player.anchor.setTo(0.5, 0);
+    player.scale.setTo(0.5, 0.5);
+    game.physics.enable(player, Phaser.Physics.ARCADE);
+    game.physics.arcade.enableBody(player);
+    player.body.collideWorldBounds = false;
+
+    raisePlayer = game.add.tween(player).to({ x: 600, y: 160 }, 1500, Phaser.Easing.Exponential.Out);
+
+    whitebottom = game.add.sprite(600, 670, 'whitebottom');
+    whitebottom.anchor.setTo(0.5,0);
+
+
+    background = game.add.sprite(0, 0, 'background');
+
+
 
     
 
@@ -81,54 +102,82 @@ function create() {
     game.time.events.add(1000, launchBlue);
     */
 
-    platform = game.add.sprite(-400, 410, 'platform');
-    platform.anchor.setTo(0.5, 0);
-    platform.scale.setTo(0.22, 0.22);
-    game.physics.enable(platform, Phaser.Physics.ARCADE);
-    game.physics.arcade.enableBody(platform);
-    platform.body.collideWorldBounds = false;
+    platform3 = game.add.sprite(920, 290, 'platform3');
+    platform3.anchor.setTo(0.5, 0);
+    platform3.scale.setTo(0.5, 0.5);
+    game.physics.enable(platform3, Phaser.Physics.ARCADE);
+    game.physics.arcade.enableBody(platform3);
+    platform3.body.collideWorldBounds = false;
 
-    player = game.add.sprite(-400, 222, 'green');
-    player.anchor.setTo(0.5, 0);
-    player.scale.setTo(0.28, 0.28);
-    game.physics.enable(player, Phaser.Physics.ARCADE);
-    game.physics.arcade.enableBody(player);
-    player.body.collideWorldBounds = false;
+    platform1 = game.add.sprite(595, 310, 'platform1');
+    platform1.anchor.setTo(0.5, 0);
+    platform1.scale.setTo(0.5, 0.5);
+    game.physics.enable(platform1, Phaser.Physics.ARCADE);
+    game.physics.arcade.enableBody(platform1);
+    platform1.body.collideWorldBounds = false;
 
-    redring = game.add.sprite(219, 570, 'redring');
-    redring.anchor.setTo(0.5, 0);
-    redring.scale.setTo(0.5, 0.5);
+    platform2 = game.add.sprite(270, 280, 'platform2');
+    platform2.anchor.setTo(0.5, 0);
+    platform2.scale.setTo(0.5, 0.5);
+    game.physics.enable(platform2, Phaser.Physics.ARCADE);
+    game.physics.arcade.enableBody(platform2);
+    platform2.body.collideWorldBounds = false;
+
+    platform1Down = game.add.tween(platform1).to({ x: 600, y: 1200 }, 1500, Phaser.Easing.Elastic.In);
+    platform2Down = game.add.tween(platform2).to({ x: 600, y: 1200 }, 1500, Phaser.Easing.Elastic.In);
+    platform3Down = game.add.tween(platform3).to({ x: 600, y: 1200 }, 1500, Phaser.Easing.Elastic.In);
+
+    platform1Down.onComplete.add(raiseChosen, this);
+
+    platform1.body.position.x = 595+Math.sin(Math.PI/2) * 10;
+    platform2.body.position.x = 270+Math.sin(0) * 10;
+    platform3.body.position.x = 920+Math.sin(Math.PI) * 10;
+
+    platform1.body.position.y = 310+Math.sin(Math.PI);
+    platform2.body.position.y = 280+Math.sin(Math.PI/2);
+    platform3.body.position.y = 290+Math.sin(Math.PI/2);
+
+    platform1.scale.set(0.05*Math.sin(Math.PI/2)+0.6);
+    platform2.scale.set(-0.05*Math.sin(Math.PI)+0.6);
+    platform3.scale.set(0.05*Math.sin(Math.PI)+0.6);
+
+
+    // final player position = 440, 140 scale = 0.55
+    
+    
+
+
+
+    redring = game.add.sprite(225, 750, 'redring');
+    redring.anchor.setTo(0, 0);
     game.physics.enable(redring, Phaser.Physics.ARCADE);
     game.physics.arcade.enableBody(redring);
     redring.body.collideWorldBounds = false;
 
-    bluering = game.add.sprite(333, 570, 'bluering');
-    bluering.anchor.setTo(0.5, 0);
-    bluering.scale.setTo(0.5, 0.5);
+    bluering = game.add.sprite(380, 750, 'bluering');
+    bluering.anchor.setTo(0, 0);
     game.physics.enable(bluering, Phaser.Physics.ARCADE);
     game.physics.arcade.enableBody(bluering);
     bluering.body.collideWorldBounds = false;
 
-    greenring = game.add.sprite(447, 570, 'greenring');
-    greenring.anchor.setTo(0.5, 0);
-    greenring.scale.setTo(0.5, 0.5);
+    greenring = game.add.sprite(535, 750, 'greenring');
+    greenring.anchor.setTo(0, 0);
     game.physics.enable(greenring, Phaser.Physics.ARCADE);
     game.physics.arcade.enableBody(greenring);
     greenring.body.collideWorldBounds = false;
 
-    orangering = game.add.sprite(561, 570, 'orangering');
-    orangering.anchor.setTo(0.5, 0);
-    orangering.scale.setTo(0.5, 0.5);
+    orangering = game.add.sprite(690, 750, 'orangering');
+    orangering.anchor.setTo(0, 0);
     game.physics.enable(orangering, Phaser.Physics.ARCADE);
     game.physics.arcade.enableBody(orangering);
     orangering.body.collideWorldBounds = false;
 
-    purplering = game.add.sprite(675, 570, 'purplering');
-    purplering.anchor.setTo(0.5, 0);
-    purplering.scale.setTo(0.5, 0.5);
+    purplering = game.add.sprite(845, 750, 'purplering');
+    purplering.anchor.setTo(0, 0);
     game.physics.enable(purplering, Phaser.Physics.ARCADE);
     game.physics.arcade.enableBody(purplering);
     purplering.body.collideWorldBounds = false;
+
 
     greenAura = game.add.sprite(game.width/2, 80, 'greenaura');
     greenAura.anchor.setTo(0.5, 0);
@@ -157,10 +206,14 @@ function create() {
     fill.killOnComplete = true;
     */
 
-    fscreen = game.add.sprite(450, 68, 'fscreen');
-    fscreen.anchor.setTo(0.5, 0);
-    fscreen.scale.setTo(0.26, 0.26);
 
+
+    fscreen = game.add.sprite(10, 79, 'fscreen');
+
+
+    
+    techart = game.add.sprite(40, 106, 'techart');
+    techart.scale.setTo(0.7, 0.7);
 
 
 
@@ -173,18 +226,56 @@ function update() {
 
     //player.velocity.y = -3;
 
+    
 
+    if(start_flag==1) {
+
+        startRotation();
+
+        counter++;
+
+        ROTATOR = ROTATOR + 0.03;
+        
+        platform1.body.position.x = platform1.body.position.x+Math.sin(ROTATOR+Math.PI/2) * 10;
+        platform2.body.position.x = platform2.body.position.x+Math.sin(ROTATOR) * 10;
+        platform3.body.position.x = platform3.body.position.x+Math.sin(ROTATOR+Math.PI) * 10;
+
+        platform1.body.position.y = platform1.body.position.y+Math.sin(ROTATOR+Math.PI);
+        platform2.body.position.y = platform2.body.position.y+Math.sin(ROTATOR+Math.PI/2);
+        platform3.body.position.y = platform3.body.position.y+Math.sin(ROTATOR-Math.PI/2);
+
+        
+        
+        if (platform1.body.position.x < 111) {
+            game.world.bringToTop(platform1);
+        }
+
+        if (platform2.body.position.x < 111 && platform1.body.position.x > 400) {
+            game.world.bringToTop(platform2);
+        }
+
+        if (platform3.body.position.x < 111) {
+            game.world.bringToTop(platform3);
+        }
+
+        
+        platform1.scale.set(0.05*Math.sin(ROTATOR+Math.PI/2)+0.6);
+        platform2.scale.set(-0.05*Math.sin(ROTATOR+Math.PI)+0.6);
+        platform3.scale.set(0.05*Math.sin(ROTATOR+Math.PI)+0.6);
+
+        if (counter==300) {
+            start_flag=0;
+            flyAway();
+        }
+
+    }
+
+
+    /* Start Old Code
 
     if(platform.body.position.x+platform.body.width/2 < game.width/2) {
         platform.body.position.x += ((game.width/2)-(platform.body.position.x+platform.body.width/2))/15;
-        player.body.position.x = platform.body.position.x+90;
-    }
-
-    if(platform.body.position.x > 100) {
-        if(leftarm.position.x<250)
-            leftarm.position.x += 4;
-        if(rightarm.position.x>630)
-            rightarm.position.x -= 4;
+        player.body.position.x = platform.body.position.x+120;
     }
 
 
@@ -194,6 +285,8 @@ function update() {
             halo.body.acceleration.y = 0;
         }
     }, this)
+
+    End Old Code */
     
     
     /*
@@ -225,6 +318,10 @@ function update() {
     */
 }
 
+function startRotation() {
+
+}
+
 
 function launchBlue() {
     var BLUE_SPEED = 300;
@@ -243,7 +340,33 @@ function launchBlue() {
 }
 
 function runInitialAnimation() {
-    ringmove();
+    spinStart();
+    //ringmove();
+}
+
+function spinStart() {
+    start_flag = 1;
+}
+
+function flyAway() {
+    game.world.sendToBack(platform1);
+    game.world.moveUp(platform1);
+    platform1Down.start();
+
+    game.world.sendToBack(platform2);
+    game.world.moveUp(platform2);
+    platform2Down.start();
+
+    game.world.sendToBack(platform3);
+    game.world.moveUp(platform3);
+    platform3Down.start();
+
+}
+
+function raiseChosen() {
+    setTimeout(raisePlayer.start(), 1000);
+    setTimeout(raisePlatform.start(), 1000);
+    
 }
 
 function ringmove() {

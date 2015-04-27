@@ -35,7 +35,7 @@ div .ace_gutter .ace_gutter-active-line {
 	bottom: 0;
 	left: 0;
 	width: 500px;
-	margin-top:55px;
+	margin-top:50px;
 }
 
 .menu-title {
@@ -81,7 +81,7 @@ div .ace_gutter .ace_gutter-active-line {
 	font-size: 20px;
 	padding: 10px 20px 10px 20px;
 	height: 100px;
-	margin-top: 655px;
+	margin-top: 600px;
 	margin-left: 350px;
 	float:right;
 }
