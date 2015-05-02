@@ -176,7 +176,7 @@ io.on('connection', function(socket) {
 		]);
 	}
 	*/
-
+	var myOutput;
 	socket.emit('start', { hello: 'world'});
 	socket.on('source-sent', function(data) {
 		var lang = 10;
@@ -190,6 +190,9 @@ io.on('connection', function(socket) {
 		}
 
 		var source = preBoiler + inputCode + afterBoiler;
-		ideone.run(source, lang, '');
+		ideone.run(source, lang, '', function(returnedVal) {
+			socket.emit('returnOutput', { output: returnedVal });
+		});
 	});
+	
 });
