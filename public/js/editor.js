@@ -64,6 +64,10 @@ var compileCode = function() {
 	}
 }; 
 
+socket.on('returnOutput', function(data) {
+	compileOutput(data.output);
+});
+
 socket.on('start', function(data) {
 	hasConnected = true;
 });

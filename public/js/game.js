@@ -8,6 +8,7 @@ var counter = 0;
 var ROTATOR = 0;
 var blues;
 var haloLaunchTimer;
+var haloRemoveTimer;
 var blueSpacing = 1500;
 var jumpButton;
 var halo_counter;
@@ -15,6 +16,12 @@ var auraTween;
 var GROUND = 150;
 var JUMP = 300;
 var GRAVITY = 0;
+var timeCheck;
+var waiting = 0;
+var ring_state = 0;
+var aura_cycle = 0;
+var ring_counter = 5;
+var compile_good = 0;
 
 
 function preload() {
@@ -40,6 +47,8 @@ function preload() {
 
 function create() {
     halo_counter = 0;
+
+
 
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.physics.arcade.gravity.y = GRAVITY;
@@ -127,7 +136,9 @@ function create() {
     platform2Down = game.add.tween(platform2).to({ x: 600, y: 1200 }, 1500, Phaser.Easing.Elastic.In);
     platform3Down = game.add.tween(platform3).to({ x: 600, y: 1200 }, 1500, Phaser.Easing.Elastic.In);
 
-    platform1Down.onComplete.add(raiseChosen, this);
+
+    
+    
 
     platform1.body.position.x = 595+Math.sin(Math.PI/2) * 10;
     platform2.body.position.x = 270+Math.sin(0) * 10;
@@ -136,6 +147,10 @@ function create() {
     platform1.body.position.y = 310+Math.sin(Math.PI);
     platform2.body.position.y = 280+Math.sin(Math.PI/2);
     platform3.body.position.y = 290+Math.sin(Math.PI/2);
+
+    platform1Up = game.add.tween(platform1).to({ x: platform1.body.position.x, y: platform1.body.position.y }, 1100, Phaser.Easing.Elastic.Out);
+    platform2Up = game.add.tween(platform2).to({ x: platform2.body.position.x, y: platform2.body.position.y }, 1100, Phaser.Easing.Elastic.Out);
+    platform3Up = game.add.tween(platform3).to({ x: platform3.body.position.x, y: platform3.body.position.y }, 1100, Phaser.Easing.Elastic.Out);
 
     platform1.scale.set(0.05*Math.sin(Math.PI/2)+0.6);
     platform2.scale.set(-0.05*Math.sin(Math.PI)+0.6);
@@ -179,21 +194,22 @@ function create() {
     purplering.body.collideWorldBounds = false;
 
 
-    greenAura = game.add.sprite(game.width/2, 80, 'greenaura');
+    greenAura = game.add.sprite(game.width/2, 0, 'greenaura');
     greenAura.anchor.setTo(0.5, 0);
-    greenAura.scale.setTo(0.35, 0.35);
+    greenAura.scale.setTo(0.5, 0.5);
     greenAura.alpha = 0;
     auraTweenIn = game.add.tween(greenAura).to({ alpha: 1 }, 400);
     auraTweenIn.onComplete.add(removeAura, this);
     auraTweenOut = game.add.tween(greenAura).to({ alpha: 0.7 }, 600);
     auraTweenOut.onComplete.add(launchAura, this);
+    auraTweenRemove = game.add.tween(greenAura).to({ alpha: 0.0 }, 600);
 
 
     greenhalo = game.add.group();
     greenhalo.enableBody = true;
     greenhalo.createMultiple(5, 'greenhalo');
-    greenhalo.setAll('scale.x', 0.3);
-    greenhalo.setAll('scale.y', 0.3);
+    greenhalo.setAll('scale.x', 1.4);
+    greenhalo.setAll('scale.y', 1.4);
     greenhalo.setAll('anchor.x', 0.5);
     greenhalo.setAll('anchor.y', 0);
     //greenhalo.setAll('checkWorldBounds', true);
@@ -216,6 +232,7 @@ function create() {
     techart.scale.setTo(0.7, 0.7);
 
 
+    
 
     //jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
@@ -226,11 +243,19 @@ function update() {
 
     //player.velocity.y = -3;
 
+    if(waiting) {
+        if (compile_good == 1) {
+            raiseChosen();
+            compile_good = 0;
+        }
+        if (compile_good == -1) {
+            resetPlatforms();
+            compile_good = 0;
+        }
+    }
     
 
     if(start_flag==1) {
-
-        startRotation();
 
         counter++;
 
@@ -263,7 +288,8 @@ function update() {
         platform2.scale.set(-0.05*Math.sin(ROTATOR+Math.PI)+0.6);
         platform3.scale.set(0.05*Math.sin(ROTATOR+Math.PI)+0.6);
 
-        if (counter==300) {
+
+        if (counter==150) {
             start_flag=0;
             flyAway();
         }
@@ -322,7 +348,6 @@ function startRotation() {
 
 }
 
-
 function launchBlue() {
     var BLUE_SPEED = 300;
 
@@ -340,8 +365,12 @@ function launchBlue() {
 }
 
 function runInitialAnimation() {
-    spinStart();
-    //ringmove();
+    if (ring_state==0) {
+        spinStart();
+    }
+    else if (ring_state==1) {
+        ringmove();
+    }
 }
 
 function spinStart() {
@@ -349,6 +378,11 @@ function spinStart() {
 }
 
 function flyAway() {
+
+    //platform1Down.onComplete.add(raiseChosen, this);
+    //timer = game.time.events.add(Phaser.Timer.SECOND * 3, raiseChosen, this);
+    waiting = 1;
+
     game.world.sendToBack(platform1);
     game.world.moveUp(platform1);
     platform1Down.start();
@@ -363,10 +397,27 @@ function flyAway() {
 
 }
 
+
 function raiseChosen() {
     setTimeout(raisePlayer.start(), 1000);
     setTimeout(raisePlatform.start(), 1000);
+
+    ring_state=1;
     
+}
+
+function resetPlatforms() {
+    counter = 0;
+    ROTATOR = 0;
+
+    platform1.scale.set(0.05*Math.sin(Math.PI/2)+0.6);
+    platform2.scale.set(-0.05*Math.sin(Math.PI)+0.6);
+    platform3.scale.set(0.05*Math.sin(Math.PI)+0.6);
+
+    platform1Up.start();
+    platform2Up.start();
+    platform3Up.start();
+
 }
 
 function ringmove() {
@@ -383,14 +434,23 @@ function launchRings() {
     if(halo) {
         halo_counter++;
         halo.reset(game.width/2, -100-50*halo_counter);
-        halo.body.velocity.y = 900;
-        halo.body.acceleration.y = -700;
+        haloIn = game.add.tween(halo).to({x: game.width/2, y: 550-75*halo_counter}, 1000, Phaser.Easing.Exponential.Out);
+        haloIn.start();
     }
 
     haloLaunchTimer = game.time.events.add(50, launchRings);
     if (halo_counter==5) {
         halo_counter++;
         game.time.events.add(800, launchAura);
+    }
+}
+
+function removeRings() {
+    if (ring_counter>0) {
+        haloOut = game.add.tween(greenhalo.children[ring_counter-1]).to({x: game.width/2, y: -200}, 1000, Phaser.Easing.Exponential.In);
+        haloOut.start();
+        haloRemoveTimer = game.time.events.add(100, removeRings);
+        ring_counter--;
     }
 }
 
@@ -401,9 +461,17 @@ function launchAura() {
 
 function removeAura() {
     //auraTweenIn.stop();
-    
-    auraTweenOut.start();
-    
+
+    aura_cycle++;
+
+    if (aura_cycle==6) {
+        auraTweenRemove.start();
+        removeRings();
+    }
+    else {
+        auraTweenOut.start();
+    }
+
 }
 
 function ringstop() {
@@ -450,6 +518,17 @@ function render() {
 
 function restart () {
     
+}
+
+
+function compileOutput(info) {
+    var tester = 1;
+    if (info == tester) {
+        compile_good = 1;
+    }
+    else {
+        compile_good = -1;
+    }
 }
 
 //calls editor.js's compile code to compile code
