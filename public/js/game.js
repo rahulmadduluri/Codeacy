@@ -22,9 +22,10 @@ var ring_state = 0;
 var aura_cycle = 0;
 var ring_counter = 5;
 var compile_good = 0;
-
+var type = "";
 
 function preload() {
+
     game.load.image('background', '/img/template.png');
     game.load.image('whiteback', '/img/screenbg.png');
     game.load.image('platform', '/img/platformfloat.png');
@@ -523,13 +524,47 @@ function restart () {
 
 function compileOutput(info) {
     var tester = 1;
-    if (info == tester) {
+    var len = info.length;
+    if (info.charAt(0) == '1') {
         compile_good = 1;
+        type = info.substring(2,len-1);
     }
     else {
         compile_good = -1;
     }
 }
+
+$(document).ready(function () {
+    var editor = ace.edit("editor");
+
+
+    editor.getSession().getSelection().on('changeCursor', function(e) {
+    if(editor.getCursorPosition().row>=10) {
+        editor.setReadOnly(false);
+        /*
+        $("div .ace_gutter .ace_gutter-active-line").css("background", "");
+        $("div .ace_layer .ace_cursor").css("color", "");
+        */
+    }
+    else {
+        editor.setReadOnly(true);
+        /*
+        $("div .ace_gutter .ace_gutter-active-line").css("background", "transparent");
+        $("div .ace_layer .ace_cursor").css("color", "transparent");
+        */
+    }
+    if(editor.getCursorPosition().row<10 && editor.getReadOnly()) {
+        editor.moveCursorTo(10,0);
+    }
+});
+
+
+
+    var text = '/*\nWelcome to the factory! Here you will create your very own character from scratch.\n\nCreate a new character like this:\nCharacter charName = new Character();\n\nSet its type like this:\ncharName.setType("typeName");\n*/';
+
+    var pos = editor.getSession().getDocument().indexToPosition(0, 0);
+    editor.getSession().getDocument().insert(pos, text);
+}); 
 
 //calls editor.js's compile code to compile code
 $(".compileBtn").click(function() {
