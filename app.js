@@ -181,8 +181,8 @@ io.on('connection', function(socket) {
 	socket.on('source-sent', function(data) {
 		var lang = 10;
 
-		var preBoiler = 'import java.util.*;import java.lang.*;import java.io.*;class Ideone {public static void main (String[] args) throws java.lang.Exception {';
-		var afterBoiler = '}}';
+		var preBoiler = 'import java.util.*;import java.lang.*;import java.io.*;class Ideone {static Boolean characterChosen = false;static String typeChosen;public static void main (String args[]) {';
+		var afterBoiler = '}}class Character {void setType(String n) {Boolean characterChosen = false;String typeChosen = "";if (n.equals("char1name")) {typeChosen = n;characterChosen = true;}else if (n.equals("char2name")) {typeChosen = n;characterChosen = true;}else if (n.equals("char3name")) {typeChosen = n;characterChosen = true;}if (characterChosen == true) {System.out.print("1 " + typeChosen);}else {System.out.print("2");}}}';
 
 		var inputCode = '';
 		for (var i = 0; i < data.source.length; ++i) {
