@@ -181,9 +181,18 @@ io.on('connection', function(socket) {
 	socket.on('source-sent', function(data) {
 		var lang = 10;
 
-		var preBoiler = 'import java.util.*;import java.lang.*;import java.io.*;class Ideone {static Boolean characterChosen = false;static String typeChosen;public static void main (String args[]) {';
-		var afterBoiler = '}}class Character {void setType(String n) {Boolean characterChosen = false;String typeChosen = "";if (n.equals("char1name")) {typeChosen = n;characterChosen = true;}else if (n.equals("char2name")) {typeChosen = n;characterChosen = true;}else if (n.equals("char3name")) {typeChosen = n;characterChosen = true;}if (characterChosen == true) {System.out.print("1 " + typeChosen);}else {System.out.print("2");}}}';
 
+		var preBoiler;
+		var afterBoiler;
+		if (data.stage == 0) {
+			preBoiler = 'import java.util.*;import java.lang.*;import java.io.*;class Ideone {static Boolean characterChosen = false;static String typeChosen;public static void main (String args[]) {';
+			afterBoiler = '}}class Character {void setType(String n) {Boolean characterChosen = false;String typeChosen = "";if (n.equals("char1name")) {typeChosen = n;characterChosen = true;}else if (n.equals("char2name")) {typeChosen = n;characterChosen = true;}else if (n.equals("char3name")) {typeChosen = n;characterChosen = true;}if (characterChosen == true) {System.out.print("1 " + typeChosen);}else {System.out.print("10");}}}';
+		}
+		else if (data.stage == 1) {
+			console.log("WRONGWRONG");
+			preBoiler = 'import java.util.*;import java.lang.*;import java.io.*;class Ideone {public static void main (String args[]) {Character charn = new Character();charn.changeColor("blue");if(charn.color != null && !charn.color.isEmpty()){System.out.println("2 " + charn.color);}else{System.out.println("10");}}}class Character {public String color;';
+			afterBoiler = '}';
+		}
 		var inputCode = '';
 		for (var i = 0; i < data.source.length; ++i) {
 			inputCode += data.source[i];
