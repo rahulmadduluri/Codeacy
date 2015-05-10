@@ -22,6 +22,7 @@ var ring_state = 0;
 var aura_cycle = 0;
 var ring_counter = 5;
 var compile_good = 0;
+var stages_completed = 0;
 var type = "";
 
 function preload() {
@@ -246,8 +247,16 @@ function update() {
 
     if(waiting) {
         if (compile_good == 1) {
-            raiseChosen();
+            if (stages_completed == 1) {
+                raiseChosen();
+            }
+            else if (stages_completed == 2) {
+                //ring has already moved
+                console.log("wrong");
+                ringmove();
+            }
             compile_good = 0;
+
         }
         if (compile_good == -1) {
             resetPlatforms();
@@ -370,7 +379,7 @@ function runInitialAnimation() {
         spinStart();
     }
     else if (ring_state==1) {
-        ringmove();
+        //ringmove();
     }
 }
 
@@ -522,12 +531,67 @@ function restart () {
 }
 
 
+//changes comments at top of editor
+function changeComments(text) {
+    var editor = ace.edit("editor");
+    var pos = editor.getSession().getDocument().indexToPosition(0, 0);
+    editor.getSession().getDocument().insert(pos, text);
+}
+
+//removes comments from certain lines
+function clearEditor() {
+    var editor = ace.edit("editor");
+    editor.getSession().getDocument().setValue('');
+}
+
+//sets up editor to start code after comments -- requires line # where comments end
+function setupEditor(cLineNumber) {
+    var editor = ace.edit("editor");
+
+
+    editor.getSession().getSelection().on('changeCursor', function(e) {
+        if(editor.getCursorPosition().row>=cLineNumber) {
+            editor.setReadOnly(false);
+            /*
+            $("div .ace_gutter .ace_gutter-active-line").css("background", "");
+            $("div .ace_layer .ace_cursor").css("color", "");
+            */
+        }
+        else {
+            editor.setReadOnly(true);
+            /*
+            $("div .ace_gutter .ace_gutter-active-line").css("background", "transparent");
+            $("div .ace_layer .ace_cursor").css("color", "transparent");
+            */
+        }
+        if(editor.getCursorPosition().row<cLineNumber && editor.getReadOnly()) {
+            editor.moveCursorTo(cLineNumber,0);
+        }
+    });
+}
+
+
+
+//when code has compiled
 function compileOutput(info) {
     var tester = 1;
     var len = info.length;
     if (info.charAt(0) == '1') {
+
+        //change comments to next stage
+        clearEditor();
+        setupEditor(11);
+        var comments = '/* Now, write a function to change the character\'s color.\nHere\'s an example:\n\nvoid setType (String typeName)\n{\n  type = typeName\n}\n\nThe function you must write is called changeColor.\nIt will take a String -- the name of the color -- as an argument.\n*/\n\n';
+        changeComments(comments);
+
         compile_good = 1;
         type = info.substring(2,len-1);
+        stages_completed = 1;
+
+    }
+    else if (info.charAt(0) == '2') {
+        compile_good = 1;
+        stages_completed = 2;
     }
     else {
         compile_good = -1;
@@ -538,32 +602,11 @@ $(document).ready(function () {
     var editor = ace.edit("editor");
 
 
-    editor.getSession().getSelection().on('changeCursor', function(e) {
-    if(editor.getCursorPosition().row>=10) {
-        editor.setReadOnly(false);
-        /*
-        $("div .ace_gutter .ace_gutter-active-line").css("background", "");
-        $("div .ace_layer .ace_cursor").css("color", "");
-        */
-    }
-    else {
-        editor.setReadOnly(true);
-        /*
-        $("div .ace_gutter .ace_gutter-active-line").css("background", "transparent");
-        $("div .ace_layer .ace_cursor").css("color", "transparent");
-        */
-    }
-    if(editor.getCursorPosition().row<10 && editor.getReadOnly()) {
-        editor.moveCursorTo(10,0);
-    }
-});
+    setupEditor(12);
 
+    var text = '/*\nWelcome to the factory! Here you will create your very own character from scratch.\n\nCreate a new "Character" object.\n\nThen, set its type using the function setType:\nvoid setType(String typeName);\n\nYou\'ve done function calls before but here\'s an example in case you forgot:\ncharacterObject.move("right")\n*/';
+    changeComments(text);
 
-
-    var text = '/*\nWelcome to the factory! Here you will create your very own character from scratch.\n\nCreate a new character like this:\nCharacter charName = new Character();\n\nSet its type like this:\ncharName.setType("typeName");\n*/';
-
-    var pos = editor.getSession().getDocument().indexToPosition(0, 0);
-    editor.getSession().getDocument().insert(pos, text);
 }); 
 
 //calls editor.js's compile code to compile code

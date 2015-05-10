@@ -40,8 +40,14 @@ var compileCode = function() {
 		code = editor.getSession().getDocument().getAllLines();
 		console.log(code);
 		// when source code is submitted do this:
-		socket.emit('source-sent', { source: code });
-		runInitialAnimation();
+		socket.emit('source-sent', { source: code, stage: stages_completed });
+
+		if (stages_completed == 0) {
+			runInitialAnimation();
+		}
+		else if (stages_completed == 1) {
+			//ringmove();
+		}
 	}
 }; 
 
