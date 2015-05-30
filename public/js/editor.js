@@ -46,7 +46,7 @@ var compileCode = function() {
 			runInitialAnimation();
 		}
 		else if (stages_completed == 1) {
-			//ringmove();
+			runInitialAnimation();
 		}
 	}
 }; 

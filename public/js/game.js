@@ -21,6 +21,7 @@ var waiting = 0;
 var ring_state = 0;
 var aura_cycle = 0;
 var ring_counter = 5;
+var paint_cycle = 0;
 var compile_good = 0;
 var stages_completed = 0;
 var type = "";
@@ -43,6 +44,12 @@ function preload() {
     game.load.image('greenhalo', '/img/green_halo.png');
     game.load.image('greenaura', '/img/green_aura.png');
     game.load.image('techart', '/img/techcorner.png');
+    game.load.image('red_paint', '/img/red_paint.png');
+    game.load.image('blue_paint', '/img/blue_paint.png');
+    game.load.image('yellow_paint', '/img/yellow_paint.png');
+    game.load.image('green_paint', '/img/green_paint.png');
+    game.load.image('mixer', '/img/mixer.png');
+    game.load.image('paint_box', '/img/paint_box.png');
     game.load.image('whitebottom', '/img/whitebottom.png');
     //game.load.spritesheet('smoke', '/assets/smokesprite.png', 300, 213);
 }
@@ -137,6 +144,8 @@ function create() {
     platform1Down = game.add.tween(platform1).to({ x: 600, y: 1200 }, 1500, Phaser.Easing.Elastic.In);
     platform2Down = game.add.tween(platform2).to({ x: 600, y: 1200 }, 1500, Phaser.Easing.Elastic.In);
     platform3Down = game.add.tween(platform3).to({ x: 600, y: 1200 }, 1500, Phaser.Easing.Elastic.In);
+
+    platform3Down.onComplete.add(flyAwayComplete, this);
 
 
     
@@ -234,7 +243,64 @@ function create() {
     techart.scale.setTo(0.7, 0.7);
 
 
-    
+    red_paint = game.add.sprite(910, 125, 'red_paint');
+    red_paint.anchor.setTo(0, 0);
+    red_paint.alpha = 0;
+    game.physics.enable(red_paint, Phaser.Physics.ARCADE);
+    game.physics.arcade.enableBody(red_paint);
+    red_paint.body.collideWorldBounds = false;
+
+    blue_paint = game.add.sprite(995, 125, 'blue_paint');
+    blue_paint.anchor.setTo(0, 0);
+    blue_paint.alpha = 0;
+    game.physics.enable(blue_paint, Phaser.Physics.ARCADE);
+    game.physics.arcade.enableBody(blue_paint);
+    blue_paint.body.collideWorldBounds = false;
+
+    bluePaintDrop = game.add.tween(blue_paint).to({ x: 995, y: 240 }, 1000, Phaser.Easing.Exponential.In);
+    bluePaintFade = game.add.tween(blue_paint).to({ alpha: 0 }, 1000, Phaser.Easing.Exponential.In);
+
+    yellow_paint = game.add.sprite(1080, 125, 'yellow_paint');
+    yellow_paint.anchor.setTo(0, 0);
+    yellow_paint.alpha = 0;
+    game.physics.enable(yellow_paint, Phaser.Physics.ARCADE);
+    game.physics.arcade.enableBody(yellow_paint);
+    yellow_paint.body.collideWorldBounds = false;
+
+    yellowPaintDrop = game.add.tween(yellow_paint).to({ x: 1080, y: 240 }, 1000, Phaser.Easing.Exponential.In);
+    yellowPaintFade = game.add.tween(yellow_paint).to({ alpha: 0 }, 1000, Phaser.Easing.Exponential.In);
+
+    green_paint = game.add.sprite(995, 245, 'green_paint');
+    green_paint.anchor.setTo(0, 0);
+    green_paint.alpha = 0;
+    game.physics.enable(green_paint, Phaser.Physics.ARCADE);
+    game.physics.arcade.enableBody(green_paint);
+    green_paint.body.collideWorldBounds = false;
+
+    greenPaintDrop = game.add.tween(green_paint).to({ x: 995, y: 370 }, 1000, Phaser.Easing.Exponential.Out);
+    greenPaintFade = game.add.tween(green_paint).to({ alpha: 1 }, 1000, Phaser.Easing.Exponential.Out);
+
+    mixer = game.add.sprite(1027, 300, 'mixer');
+    mixer.anchor.setTo(0.5, 0.5);
+    mixer.alpha = 0;
+    game.physics.enable(mixer, Phaser.Physics.ARCADE);
+    game.physics.arcade.enableBody(mixer);
+    mixer.body.collideWorldBounds = false;
+
+    shrinkMixer = game.add.tween(mixer.scale).to({ x: 0.8, y: 0.8 }, 400);
+    shrinkMixer.onComplete.add(mixerGrow, this);
+    growMixer = game.add.tween(mixer.scale).to({ x: 1, y: 1 }, 500);
+    growMixer.onComplete.add(mixerShrink, this);
+    resetMixer = game.add.tween(mixer.scale).to({ x: 1, y: 1 }, 500);
+
+    paint_box = game.add.sprite(888, 100, 'paint_box');
+    paint_box.anchor.setTo(0, 0);
+    paint_box.alpha = 0;
+    game.physics.enable(paint_box, Phaser.Physics.ARCADE);
+    game.physics.arcade.enableBody(paint_box);
+    paint_box.body.collideWorldBounds = false;
+
+
 
     //jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
@@ -248,19 +314,19 @@ function update() {
     if(waiting) {
         if (compile_good == 1) {
             if (stages_completed == 1) {
-                raiseChosen();
+                //raiseChosen();
             }
             else if (stages_completed == 2) {
                 //ring has already moved
-                console.log("wrong");
-                ringmove();
+                //console.log("wrong");
+                //ringmove();
             }
-            compile_good = 0;
+            //compile_good = 0;
 
         }
         if (compile_good == -1) {
-            resetPlatforms();
-            compile_good = 0;
+            //resetPlatforms();
+            //compile_good = 0;
         }
     }
     
@@ -299,7 +365,7 @@ function update() {
         platform3.scale.set(0.05*Math.sin(ROTATOR+Math.PI)+0.6);
 
 
-        if (counter==150) {
+        if (compile_good) {
             start_flag=0;
             flyAway();
         }
@@ -379,7 +445,8 @@ function runInitialAnimation() {
         spinStart();
     }
     else if (ring_state==1) {
-        //ringmove();
+        ringmove();
+        paintDrop();
     }
 }
 
@@ -405,6 +472,17 @@ function flyAway() {
     game.world.moveUp(platform3);
     platform3Down.start();
 
+}
+
+function flyAwayComplete() {
+    if (compile_good==1) {
+        raiseChosen();
+        createPaintArea();
+    }
+    else if (compile_good==-1) {
+        resetPlatforms();
+    }
+    compile_good=0;
 }
 
 
@@ -474,9 +552,20 @@ function removeAura() {
 
     aura_cycle++;
 
-    if (aura_cycle==6) {
+    if (compile_good==1) {
         auraTweenRemove.start();
         removeRings();
+        greenring.body.position.x = 535;
+        greenring.body.position.y = 750;
+        compile_good=0;
+    }
+    else if (compile_good == -1) {
+        // submitted answer is wrong
+        auraTweenRemove.start();
+        removeRings();
+        greenring.body.position.x = 535;
+        greenring.body.position.y = 750;
+        compile_good=0;
     }
     else {
         auraTweenOut.start();
@@ -486,6 +575,67 @@ function removeAura() {
 
 function ringstop() {
     greenring.body.velocity.y = 0;
+}
+
+function createPaintArea() {
+    paint_box.alpha = 1;
+    mixer.alpha = 1;
+    red_paint.alpha = 1;
+    blue_paint.alpha = 1;
+    yellow_paint.alpha = 1;
+}
+
+function paintDrop() {
+    bluePaintDrop.start();
+    bluePaintFade.start();
+    yellowPaintDrop.start();
+    yellowPaintFade.start();
+    game.time.events.add(1000, mixerShrink);
+}
+
+function mixerShrink() {
+    shrinkMixer.start();
+}
+
+function mixerGrow() {
+
+    // testing
+    paint_cycle++;
+
+    if (paint_cycle == 5) {
+        resetMixer.start();
+        successPaint();
+        //compile_good=0;
+    }
+    else {
+        growMixer.start();
+    }
+    
+    /*
+    if (compile_good==1) {
+        resetMixer.start();
+        successPaint();
+        compile_good=0;
+    }
+    else if (compile_good == -1) {
+        resetMixer.start();
+        failPaint();
+        compile_good=0;
+    }
+    else {
+        growMixer.start();
+    }
+    */
+
+}
+
+function successPaint() {
+    greenPaintDrop.start();
+    greenPaintFade.start();
+}
+
+function failPaint() {
+
 }
 
 /*
