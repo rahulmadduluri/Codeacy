@@ -1,6 +1,7 @@
 var game = new Phaser.Game(1200, 848, Phaser.AUTO, 'phaser-demo', {preload: preload, create: create, update: update, render: render});
 var flag = 0;
 var level = 1;
+var text;
 
 function preload() {
 	game.load.image('background', '/img/ifthen/background.png');
@@ -16,6 +17,11 @@ function preload() {
 }
 function create(){
 	background = game.add.sprite(0,0,'background');
+
+	var style = { font: "32px Gill Sans", fill: "#ffffff", align: "center" };
+
+    text = game.add.text(600, 30, "Level: " + level, style);
+    text.anchor.set(0.5);
 
 	start = game.add.sprite(380,400,'start');
 	start.anchor.setTo(0.5,0.5);
@@ -53,14 +59,14 @@ function create(){
 
 	orangeball = game.add.sprite(352,400,'orangeball');
 	orangeball.anchor.setTo(0.5,0.5);
-	orangeTravel1 = game.add.tween(orangeball).to({ x: 867, y: 400 }, 2000, Phaser.Easing.Exponential.InOut);
+	orangeTravel1 = game.add.tween(orangeball).to({ x: 867, y: 400 }, 1500, Phaser.Easing.Exponential.InOut);
 	orangeTravel1.onComplete.add(successfully, this);
 
 
 	success = game.add.sprite(820,400,'success');
 	success.anchor.setTo(0.5,0.5);
 	success.alpha = 0;
-	successful = game.add.tween(success).to({ alpha: 1 }, 1000, Phaser.Easing.Exponential.In);
+	successful = game.add.tween(success).to({ alpha: 1 }, 800, Phaser.Easing.Exponential.In);
 
 }
 function update(){
@@ -166,8 +172,11 @@ function createLevel() {
 		orangeball.position.x = 352;
 		orangeball.position.y = 400;
 
+		game.world.bringToTop(shadow);
 		game.world.bringToTop(centerhigh);
 		game.world.bringToTop(orangeball);
 		game.world.bringToTop(success);
+
+		text.setText("Level: " + level);
 	}
 }
